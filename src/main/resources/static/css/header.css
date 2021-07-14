@@ -1,0 +1,28 @@
+header {
+    background-color: #2A2D32;
+}
+
+header * {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.search-form {
+    margin-left: 50px;
+}
+
+.search-form input {
+    display: inline-block;
+    width: 200px;
+    margin-bottom: 0;
+}
+
+.search-form .btn {
+    display: inline-block;
+}
+
+.header-right {
+    float: right;
+    margin-top: 29px;
+    margin-right: 20px;
+}
