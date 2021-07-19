@@ -8,17 +8,14 @@ header * {
     vertical-align: middle;
 }
 
-.search-form {
-    margin-left: 50px;
-}
-
-.search-form input {
+.search-input {
     display: inline-block;
     width: 200px;
     margin-bottom: 0;
+    margin-left: 40px;
 }
 
-.search-form .btn {
+.search-button {
     display: inline-block;
 }
 

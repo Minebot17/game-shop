@@ -15,7 +15,12 @@
 
     <jsp:include page="header.jsp" />
     <div class="main-panel">
-        index
+        <c:forEach var="game" items="${games}">
+            <c:if test="${!param.containsKey('search') || game.title.toLowerCase().startsWith(param.search.toLowerCase())}">
+                <c:set var="game" value="${game}" scope="request" />
+                <jsp:include page="game_block.jsp" />
+            </c:if>
+        </c:forEach>
     </div>
 </body>
 </html>
