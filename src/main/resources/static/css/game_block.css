@@ -1,0 +1,34 @@
+.game_block {
+    display: inline-block;
+    width: 260px;
+    height: 400px;
+    background-color: #2A2D32;
+    border: #212529 solid 2px;
+    border-radius: 20px;
+    padding: 10px 20px 20px;
+    margin: 20px;
+    text-align: center;
+}
+
+.game_block img {
+    border-radius: 20px;
+}
+
+.game_block button {
+    width: 200px;
+}
+
+.game_description {
+    width: 216px;
+    height: 48px;
+    overflow: hidden;
+    text-overflow: fade;
+}
+
+.game_name {
+    width: 216px;
+    height: 24px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}

@@ -1,5 +1,6 @@
 header {
     background-color: #2A2D32;
+    outline: solid;
 }
 
 header * {
