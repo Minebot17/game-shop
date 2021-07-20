@@ -1,5 +1,8 @@
 package ru.minebot.gameshop.model;
 
+import org.springframework.security.core.userdetails.UserDetails;
+import ru.minebot.gameshop.orm.UserCRUD;
+
 import javax.persistence.*;
 import java.util.Objects;
 
@@ -19,6 +22,16 @@ public class UserShop {
 
     @Column(name = "password")
     private String password;
+
+    public UserShop() {}
+
+    public UserShop(UserDetails userDetails) {
+        UserShop userShop = new UserCRUD().getByName(userDetails.getUsername());
+        this.id = userShop.id;
+        this.login = userShop.login;
+        this.email = userShop.email;
+        this.password = userShop.password;
+    }
 
     public long getId() {
         return id;

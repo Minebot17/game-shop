@@ -10,6 +10,7 @@ import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Environment;
 import ru.minebot.gameshop.model.Game;
+import ru.minebot.gameshop.model.UserShop;
 
 public class HibernateUtil {
 
@@ -31,6 +32,7 @@ public class HibernateUtil {
                 registry = registryBuilder.build();
                 MetadataSources sources = new MetadataSources(registry);
                 sources.addAnnotatedClass(Game.class);
+                sources.addAnnotatedClass(UserShop.class);
                 Metadata metadata = sources.getMetadataBuilder().build();
                 sessionFactory = metadata.getSessionFactoryBuilder().build();
 

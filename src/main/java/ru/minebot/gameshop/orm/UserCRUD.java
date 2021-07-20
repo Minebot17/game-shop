@@ -1,0 +1,38 @@
+package ru.minebot.gameshop.orm;
+
+import org.hibernate.Session;
+import org.hibernate.query.Query;
+import ru.minebot.gameshop.model.UserShop;
+
+public class UserCRUD {
+
+    public void createUser(UserShop userShop) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        session.save(userShop);
+        session.flush();
+        session.close();
+    }
+
+    public void updateUser(UserShop userShop) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        session.saveOrUpdate(userShop);
+        session.flush();
+        session.close();
+    }
+
+    public void deleteUser(UserShop userShop) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        session.delete(userShop);
+        session.flush();
+        session.close();
+    }
+
+    public UserShop getByName(String userName) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Query query = session.createQuery("FROM UserShop U WHERE U.login = '" + userName + "'");
+        return (UserShop) query.getSingleResult();
+    }
+}
