@@ -23,6 +23,9 @@ public class UserShop {
     @Column(name = "password")
     private String password;
 
+    @Transient
+    private String passwordConfirmation;
+
     public UserShop() {}
 
     public UserShop(UserDetails userDetails) {
@@ -63,6 +66,14 @@ public class UserShop {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getPasswordConfirmation() {
+        return passwordConfirmation;
+    }
+
+    public void setPasswordConfirmation(String passwordConfirmation) {
+        this.passwordConfirmation = passwordConfirmation;
     }
 
     @Override

@@ -15,7 +15,7 @@
 
 <jsp:include page="header.jsp" />
 <div class="main-panel">
-    <form method="post">
+    <form method="post" class="login-form">
         <div class="mb-3">
             <label for="login" class="form-label">Login</label>
             <input type="text" class="form-control" id="login" name="username">
@@ -24,7 +24,10 @@
             <label for="password" class="form-label">Password</label>
             <input type="password" class="form-control" id="password" name="password">
         </div>
-        <button type="submit" class="btn btn-primary">Log in</button>
+        <button type="submit" class="btn btn-secondary">Log in</button>
+        <c:if test="${param.containsKey('error')}">
+            <p class="alert-login">Wrong login or password</p>
+        </c:if>
     </form>
 </div>
 </body>

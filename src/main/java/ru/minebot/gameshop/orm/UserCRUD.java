@@ -2,11 +2,14 @@ package ru.minebot.gameshop.orm;
 
 import org.hibernate.Session;
 import org.hibernate.query.Query;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import ru.minebot.gameshop.model.UserShop;
 
 public class UserCRUD {
 
     public void createUser(UserShop userShop) {
+        userShop.setPassword(new BCryptPasswordEncoder().encode(userShop.getPassword()));
+
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         session.save(userShop);

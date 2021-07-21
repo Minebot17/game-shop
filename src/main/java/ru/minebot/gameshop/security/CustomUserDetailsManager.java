@@ -3,13 +3,12 @@ package ru.minebot.gameshop.security;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.Md4PasswordEncoder;
-import org.springframework.security.crypto.password.MessageDigestPasswordEncoder;
 import org.springframework.security.provisioning.UserDetailsManager;
+import org.springframework.stereotype.Service;
 import ru.minebot.gameshop.model.UserShop;
 import ru.minebot.gameshop.orm.UserCRUD;
 
+@Service
 public class CustomUserDetailsManager implements UserDetailsManager {
 
     private UserCRUD crud = new UserCRUD();
@@ -17,7 +16,10 @@ public class CustomUserDetailsManager implements UserDetailsManager {
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         UserShop userShop = crud.getByName(s);
-        return User.withDefaultPasswordEncoder()
+        if (userShop == null)
+            throw new UsernameNotFoundException("User " + s + " not found");
+
+        return User.builder()
                 .username(userShop.getLogin())
                 .password(userShop.getPassword())
                 .authorities("USER")

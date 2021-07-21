@@ -15,7 +15,7 @@
 
 <jsp:include page="header.jsp" />
 <div class="main-panel">
-    <form method="post">
+    <form method="post" class="login-form">
         <div class="mb-3">
             <label for="login" class="form-label">Login</label>
             <input type="text" class="form-control" id="login" name="login">
@@ -29,7 +29,7 @@
             <label for="password" class="form-label">Password</label>
             <input type="password" class="form-control" id="password" name="password">
         </div>
-        <button type="submit" class="btn btn-primary">Register</button>
+        <button type="submit" class="btn btn-secondary">Register</button>
     </form>
 </div>
 </body>

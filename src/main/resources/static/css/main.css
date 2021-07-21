@@ -6,4 +6,20 @@ html {
     background-color: #1B2838;
     color: white;
     padding: 20px;
+    text-align: center;
+}
+
+.login-form {
+    display: inline-block;
+    width: 400px;
+    margin: auto;
+    background-color: #2A2D32;
+    border: #212529 solid 2px;
+    border-radius: 20px;
+    padding: 20px;
+}
+
+.alert-login {
+    margin: 10px 0px 0px;
+    color: darkred;
 }
