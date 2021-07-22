@@ -1,5 +1,6 @@
 package ru.minebot.gameshop.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -7,10 +8,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import ru.minebot.gameshop.EmailServiceImpl;
 import ru.minebot.gameshop.model.Game;
 import ru.minebot.gameshop.model.UserShop;
-import ru.minebot.gameshop.orm.GameCRUD;
-import ru.minebot.gameshop.orm.UserCRUD;
+import ru.minebot.gameshop.orm.GameOperations;
+import ru.minebot.gameshop.orm.UserOperations;
 import ru.minebot.gameshop.security.UserShopDetails;
 
 import java.util.List;
@@ -26,55 +28,21 @@ public class MainController {
 
     @GetMapping("/shop")
     public String shop(Model model) {
-        GameCRUD gameCRUD = new GameCRUD();
-        List<Game> games = gameCRUD.getAll();
+        GameOperations gameOperations = new GameOperations();
+        List<Game> games = gameOperations.getAll();
         model.addAttribute("games", games);
         return "shop";
     }
 
-    @GetMapping("/register")
-    public String register(Model model) {
-        return "register";
-    }
-
-    @PostMapping("/register")
-    public String registerSubmit(@ModelAttribute UserShop userShop, Model model) {
-        UserCRUD crud = new UserCRUD();
-        UserShop userByLogin = crud.getByName(userShop.getLogin());
-        UserShop userByEmail = crud.getByEmail(userShop.getEmail());
-
-        if (userByLogin != null) {
-            model.addAttribute("errorMessage", "Error. This login is already taken");
-            return "register";
-        }
-
-        if (userByEmail != null) {
-            model.addAttribute("errorMessage", "Error. This email is already taken");
-            return "register";
-        }
-
-        if (!userShop.getPassword().equals(userShop.getPasswordConfirmation())) {
-            model.addAttribute("errorMessage", "Error. Passwords do not match");
-            return "register";
-        }
-
-        crud.createUser(userShop);
-        return "redirect:/login";
-    }
-
-    @GetMapping("/login")
-    public String login(Model model) {
-        return "login";
-    }
-
     @GetMapping("/profile")
     public String profile(Model model) {
+        model.addAttribute("emailConfirmed", ((UserShopDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).isEmailConfirmed());
         return "profile";
     }
 
     @PostMapping("/profile")
     public String profileSubmit(@RequestParam Map<String, String> body, Model model) {
-        UserCRUD crud = new UserCRUD();
+        UserOperations crud = new UserOperations();
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         UserShopDetails userDetails = (UserShopDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         UserShop newUserShop = new UserShop(userDetails);
@@ -122,5 +90,15 @@ public class MainController {
         Authentication authentication = new UsernamePasswordAuthenticationToken(newUserDetails, newUserDetails.getPassword(), newUserDetails.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authentication);
         return "redirect:/";
+    }
+
+    @GetMapping("/register_complete")
+    public String registerComplete(Model model) {
+        return "register_complete";
+    }
+
+    @GetMapping("/email_confirmed")
+    public String emailConfirmed(Model model) {
+        return "email_confirmed";
     }
 }

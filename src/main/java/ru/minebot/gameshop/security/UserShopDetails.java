@@ -13,15 +13,17 @@ public class UserShopDetails implements UserDetails {
     private String password;
 
     private String email;
+    private boolean emailConfirmed;
 
     public UserShopDetails(UserShop userShop) {
-        this(userShop.getLogin(), userShop.getPassword(), userShop.getEmail());
+        this(userShop.getLogin(), userShop.getPassword(), userShop.getEmail(), userShop.isEmailConfirmed());
     }
 
-    public UserShopDetails(String username, String password, String email) {
+    public UserShopDetails(String username, String password, String email, boolean emailConfirmed) {
         this.username = username;
         this.password = password;
         this.email = email;
+        this.emailConfirmed = emailConfirmed;
     }
 
     @Override
@@ -41,6 +43,10 @@ public class UserShopDetails implements UserDetails {
 
     public String getEmail() {
         return email;
+    }
+
+    public boolean isEmailConfirmed() {
+        return emailConfirmed;
     }
 
     @Override

@@ -1,17 +1,16 @@
 package ru.minebot.gameshop.security;
 
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Service;
 import ru.minebot.gameshop.model.UserShop;
-import ru.minebot.gameshop.orm.UserCRUD;
+import ru.minebot.gameshop.orm.UserOperations;
 
 @Service
 public class CustomUserDetailsManager implements UserDetailsManager {
 
-    private UserCRUD crud = new UserCRUD();
+    private UserOperations crud = new UserOperations();
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {

@@ -9,6 +9,7 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Environment;
+import ru.minebot.gameshop.model.ConfirmToken;
 import ru.minebot.gameshop.model.Game;
 import ru.minebot.gameshop.model.UserShop;
 
@@ -33,6 +34,7 @@ public class HibernateUtil {
                 MetadataSources sources = new MetadataSources(registry);
                 sources.addAnnotatedClass(Game.class);
                 sources.addAnnotatedClass(UserShop.class);
+                sources.addAnnotatedClass(ConfirmToken.class);
                 Metadata metadata = sources.getMetadataBuilder().build();
                 sessionFactory = metadata.getSessionFactoryBuilder().build();
 

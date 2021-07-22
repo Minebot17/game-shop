@@ -24,7 +24,12 @@
         <div class="mb-3">
             <label for="email" class="form-label">Email address</label>
             <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp" value="<sec:authentication property="principal.email" />">
-            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+            <c:if test="${emailConfirmed}">
+                <div id="emailHelp" class="form-text" style="color: green !important">Email confirmed</div>
+            </c:if>
+            <c:if test="${!emailConfirmed}">
+                <div id="emailHelp" class="form-text" style="color: red !important">Email not confirmed</div>
+            </c:if>
         </div>
         <div class="mb-3">
             <label for="password" class="form-label">Old password</label>

@@ -1,7 +1,7 @@
 package ru.minebot.gameshop.model;
 
 import org.springframework.security.core.userdetails.UserDetails;
-import ru.minebot.gameshop.orm.UserCRUD;
+import ru.minebot.gameshop.orm.UserOperations;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -20,6 +20,9 @@ public class UserShop {
     @Column(name = "email")
     private String email;
 
+    @Column(name = "email_confirmed")
+    private boolean emailConfirmed;
+
     @Column(name = "password")
     private String password;
 
@@ -29,11 +32,12 @@ public class UserShop {
     public UserShop() {}
 
     public UserShop(UserDetails userDetails) {
-        UserShop userShop = new UserCRUD().getByName(userDetails.getUsername());
+        UserShop userShop = new UserOperations().getByName(userDetails.getUsername());
         this.id = userShop.id;
         this.login = userShop.login;
         this.email = userShop.email;
         this.password = userShop.password;
+        this.emailConfirmed = userShop.emailConfirmed;
     }
 
     public long getId() {
@@ -76,6 +80,14 @@ public class UserShop {
         this.passwordConfirmation = passwordConfirmation;
     }
 
+    public boolean isEmailConfirmed() {
+        return emailConfirmed;
+    }
+
+    public void setEmailConfirmed(boolean emailConfirmed) {
+        this.emailConfirmed = emailConfirmed;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -95,7 +107,9 @@ public class UserShop {
                 "id=" + id +
                 ", login='" + login + '\'' +
                 ", email='" + email + '\'' +
+                ", emailConfirmed=" + emailConfirmed +
                 ", password='" + password + '\'' +
+                ", passwordConfirmation='" + passwordConfirmation + '\'' +
                 '}';
     }
 }

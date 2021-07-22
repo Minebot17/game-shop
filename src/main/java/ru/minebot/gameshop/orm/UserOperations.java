@@ -6,7 +6,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import ru.minebot.gameshop.Utils;
 import ru.minebot.gameshop.model.UserShop;
 
-public class UserCRUD {
+public class UserOperations {
 
     public void createUser(UserShop userShop) {
         userShop.setPassword(new BCryptPasswordEncoder().encode(userShop.getPassword()));
@@ -43,6 +43,12 @@ public class UserCRUD {
     public UserShop getByEmail(String email) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         Query query = session.createQuery("FROM UserShop U WHERE U.email = '" + email + "'");
+        return (UserShop) Utils.resultOneOrNull(query);
+    }
+
+    public UserShop getById(long id) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Query query = session.createQuery("FROM UserShop U WHERE U.id = '" + id + "'");
         return (UserShop) Utils.resultOneOrNull(query);
     }
 }

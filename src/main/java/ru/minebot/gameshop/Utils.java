@@ -14,4 +14,19 @@ public class Utils {
             return null;
         }
     }
+
+    public static String getRandomString(int length) {
+        StringBuilder result = new StringBuilder();
+
+        for (int i = 0; i < length; i++)
+            result.append(rndChar());
+
+        return result.toString();
+    }
+
+    public static char rndChar() {
+        int rnd = (int) (Math.random() * 52);
+        char base = (rnd < 26) ? 'A' : 'a';
+        return (char) (base + rnd % 26);
+    }
 }
