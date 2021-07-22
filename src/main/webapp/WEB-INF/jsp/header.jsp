@@ -11,7 +11,9 @@
     <div class="header-right">
         <sec:authorize access="isAuthenticated()">
             <button type="button" class="btn btn-secondary" name="library">My Games</button>
-            <button type="button" class="btn btn-secondary" name="profile">${login}</button>
+            <a href="/profile"><button type="button" class="btn btn-secondary" name="profile">
+                <sec:authentication property="principal.username" /> Profile
+            </button></a>
             <a href="/logout"><button type="button" class="btn btn-secondary" name="logout">Log out</button></a>
         </sec:authorize>
         <sec:authorize access="!isAuthenticated()">

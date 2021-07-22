@@ -1,4 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <!DOCTYPE HTML>
 <html>
@@ -18,22 +19,22 @@
     <form method="post" class="login-form">
         <div class="mb-3">
             <label for="login" class="form-label">Login</label>
-            <input type="text" class="form-control" id="login" name="login">
+            <input type="text" class="form-control" id="login" name="login" value="<sec:authentication property="principal.username" />">
         </div>
         <div class="mb-3">
             <label for="email" class="form-label">Email address</label>
-            <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp">
+            <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp" value="<sec:authentication property="principal.email" />">
             <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
         </div>
         <div class="mb-3">
-            <label for="password" class="form-label">Password</label>
+            <label for="password" class="form-label">Old password</label>
             <input type="password" class="form-control" id="password" name="password">
         </div>
         <div class="mb-3">
-            <label for="passwordConfirmation" class="form-label">Password confirmation</label>
-            <input type="password" class="form-control" id="passwordConfirmation" name="passwordConfirmation">
+            <label for="newPassword" class="form-label">New password</label>
+            <input type="password" class="form-control" id="newPassword" name="newPassword">
         </div>
-        <button type="submit" class="btn btn-secondary">Register</button>
+        <button type="submit" class="btn btn-secondary">Save changes</button>
         <c:if test="${requestScope.containsKey('errorMessage')}">
             <p class="alert-login">${errorMessage}</p>
         </c:if>

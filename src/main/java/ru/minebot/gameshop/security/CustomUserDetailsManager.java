@@ -19,11 +19,7 @@ public class CustomUserDetailsManager implements UserDetailsManager {
         if (userShop == null)
             throw new UsernameNotFoundException("User " + s + " not found");
 
-        return User.builder()
-                .username(userShop.getLogin())
-                .password(userShop.getPassword())
-                .authorities("USER")
-                .build();
+        return new UserShopDetails(userShop);
     }
 
     @Override
