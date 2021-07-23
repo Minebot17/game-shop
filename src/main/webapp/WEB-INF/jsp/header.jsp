@@ -10,7 +10,8 @@
     <button type="button" class="btn btn-secondary search-button" onclick="searchClick()">Search</button>
     <div class="header-right">
         <sec:authorize access="isAuthenticated()">
-            <button type="button" class="btn btn-secondary" name="library">My Games</button>
+            <p class="money-text">Yor money: <sec:authentication property="principal.money" />$</p>
+            <a href="/library"><button type="button" class="btn btn-secondary" name="library">My Games</button></a>
             <a href="/profile"><button type="button" class="btn btn-secondary" name="profile">
                 <sec:authentication property="principal.username" /> Profile
             </button></a>

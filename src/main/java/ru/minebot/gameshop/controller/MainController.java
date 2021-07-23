@@ -1,14 +1,11 @@
 package ru.minebot.gameshop.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ru.minebot.gameshop.EmailServiceImpl;
+import ru.minebot.gameshop.Utils;
 import ru.minebot.gameshop.model.Game;
 import ru.minebot.gameshop.model.UserShop;
 import ru.minebot.gameshop.orm.GameOperations;
@@ -30,15 +27,28 @@ public class MainController {
     public String shop(Model model) {
         GameOperations gameOperations = new GameOperations();
         List<Game> games = gameOperations.getAll();
+        List<Long> bought_games = gameOperations.getOwnedGames(Utils.getCurrentUser());
         model.addAttribute("games", games);
+        model.addAttribute("bought_games", bought_games);
         return "shop";
+    }
+
+    @GetMapping("/library")
+    public String library(Model model) {
+        GameOperations gameOperations = new GameOperations();
+        List<Game> games = gameOperations.getAll();
+        List<Long> bought_games = gameOperations.getOwnedGames(Utils.getCurrentUser());
+        model.addAttribute("games", games);
+        model.addAttribute("bought_games", bought_games);
+        return "library";
     }
 
     @GetMapping("/profile")
     public String profile(Model model) {
-        model.addAttribute("emailConfirmed", ((UserShopDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).isEmailConfirmed());
+        model.addAttribute("emailConfirmed", Utils.getCurrentUser().isEmailConfirmed());
         return "profile";
     }
+
 
     @PostMapping("/profile")
     public String profileSubmit(@RequestParam Map<String, String> body, Model model) {
@@ -86,10 +96,17 @@ public class MainController {
         }
 
         crud.updateUser(newUserShop);
-        UserShopDetails newUserDetails = new UserShopDetails(newUserShop);
-        Authentication authentication = new UsernamePasswordAuthenticationToken(newUserDetails, newUserDetails.getPassword(), newUserDetails.getAuthorities());
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+        Utils.updateUser(newUserShop);
         return "redirect:/";
+    }
+
+    @GetMapping("/profile/get_money")
+    public String profileGetMoney(Model model) {
+        UserShop userShop = Utils.getCurrentUser();
+        userShop.setMoney(userShop.getMoney() + 10);
+        new UserOperations().updateUser(userShop);
+        Utils.updateUser(userShop);
+        return "redirect:/profile";
     }
 
     @GetMapping("/register_complete")
@@ -100,5 +117,22 @@ public class MainController {
     @GetMapping("/email_confirmed")
     public String emailConfirmed(Model model) {
         return "email_confirmed";
+    }
+
+    @GetMapping("/shop/buy/{gameId}")
+    public String buyGame(@PathVariable long gameId, Model model) {
+        GameOperations gameOperations = new GameOperations();
+        UserOperations userOperations = new UserOperations();
+        UserShop userShop = Utils.getCurrentUser();
+        Game gameToBuy = gameOperations.getById(gameId);
+
+        if (userShop.getMoney() < gameToBuy.getPrice())
+            return "redirect:/shop?notEnoughMoney";
+
+        gameOperations.buyGame(userShop, gameToBuy);
+        userShop.setMoney(userShop.getMoney() - gameToBuy.getPrice());
+        userOperations.updateUser(userShop);
+        Utils.updateUser(userShop);
+        return "redirect:/shop";
     }
 }

@@ -14,16 +14,18 @@ public class UserShopDetails implements UserDetails {
 
     private String email;
     private boolean emailConfirmed;
+    private int money;
 
     public UserShopDetails(UserShop userShop) {
-        this(userShop.getLogin(), userShop.getPassword(), userShop.getEmail(), userShop.isEmailConfirmed());
+        this(userShop.getLogin(), userShop.getPassword(), userShop.getEmail(), userShop.isEmailConfirmed(), userShop.getMoney());
     }
 
-    public UserShopDetails(String username, String password, String email, boolean emailConfirmed) {
+    public UserShopDetails(String username, String password, String email, boolean emailConfirmed, int money) {
         this.username = username;
         this.password = password;
         this.email = email;
         this.emailConfirmed = emailConfirmed;
+        this.money = money;
     }
 
     @Override
@@ -47,6 +49,10 @@ public class UserShopDetails implements UserDetails {
 
     public boolean isEmailConfirmed() {
         return emailConfirmed;
+    }
+
+    public int getMoney() {
+        return money;
     }
 
     @Override

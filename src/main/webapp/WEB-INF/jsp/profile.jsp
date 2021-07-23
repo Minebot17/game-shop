@@ -40,6 +40,7 @@
             <input type="password" class="form-control" id="newPassword" name="newPassword">
         </div>
         <button type="submit" class="btn btn-secondary">Save changes</button>
+        <a href="/profile/get_money"><button type="button" class="btn btn-secondary">Get 10$</button></a>
         <c:if test="${requestScope.containsKey('errorMessage')}">
             <p class="alert-login">${errorMessage}</p>
         </c:if>

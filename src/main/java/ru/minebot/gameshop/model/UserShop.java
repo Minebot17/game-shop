@@ -29,6 +29,9 @@ public class UserShop {
     @Transient
     private String passwordConfirmation;
 
+    @Column(name = "money")
+    private int money;
+
     public UserShop() {}
 
     public UserShop(UserDetails userDetails) {
@@ -38,6 +41,7 @@ public class UserShop {
         this.email = userShop.email;
         this.password = userShop.password;
         this.emailConfirmed = userShop.emailConfirmed;
+        this.money = userShop.money;
     }
 
     public long getId() {
@@ -88,6 +92,14 @@ public class UserShop {
         this.emailConfirmed = emailConfirmed;
     }
 
+    public int getMoney() {
+        return money;
+    }
+
+    public void setMoney(int money) {
+        this.money = money;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -110,6 +122,7 @@ public class UserShop {
                 ", emailConfirmed=" + emailConfirmed +
                 ", password='" + password + '\'' +
                 ", passwordConfirmation='" + passwordConfirmation + '\'' +
+                ", money=" + money +
                 '}';
     }
 }

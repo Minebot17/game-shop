@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import ru.minebot.gameshop.EmailServiceImpl;
+import ru.minebot.gameshop.Utils;
 import ru.minebot.gameshop.model.ConfirmToken;
 import ru.minebot.gameshop.model.UserShop;
 import ru.minebot.gameshop.orm.ConfirmTokenOperations;
@@ -51,10 +52,7 @@ public class AuthController {
 
         userOperations.createUser(userShop);
         emailService.sendConfirmationMailForUser(userShop.getEmail());
-
-        UserShopDetails userShopDetails = new UserShopDetails(userShop);
-        Authentication authentication = new UsernamePasswordAuthenticationToken(userShopDetails, userShopDetails.getPassword(), userShopDetails.getAuthorities());
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+        Utils.updateUser(userShop);
         return "redirect:/register_complete";
     }
 
@@ -75,10 +73,7 @@ public class AuthController {
         userShop.setEmailConfirmed(true);
         userOperations.updateUser(userShop);
         tokenOperations.deleteToken(tokenObject);
-
-        UserShopDetails userShopDetails = new UserShopDetails(userShop);
-        Authentication authentication = new UsernamePasswordAuthenticationToken(userShopDetails, userShopDetails.getPassword(), userShopDetails.getAuthorities());
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+        Utils.updateUser(userShop);
         return "redirect:/email_confirmed";
     }
 }

@@ -19,7 +19,7 @@ import java.util.Properties;
 
 @Configuration
 @EnableWebSecurity
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements WebMvcConfigurer {
+public class WebConfig extends WebSecurityConfigurerAdapter implements WebMvcConfigurer {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -27,7 +27,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements W
         http.csrf().disable();
         http
                 .authorizeRequests()
-                    .antMatchers("/shop").authenticated()
+                    .antMatchers("/shop", "/profile", "/profile/get_money", "/library").authenticated()
                     .anyRequest().permitAll()
                     .and()
                 .formLogin()

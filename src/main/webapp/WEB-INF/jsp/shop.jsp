@@ -15,10 +15,30 @@
 
     <jsp:include page="header.jsp" />
     <div class="main-panel">
+        <div class="login-form" style="font-size: 24pt">Shop</div><br/>
         <c:forEach var="game" items="${games}">
             <c:if test="${!param.containsKey('search') || game.title.toLowerCase().startsWith(param.search.toLowerCase())}">
                 <c:set var="game" value="${game}" scope="request" />
+                <c:set var="bought" value="${bought_games.contains(game.id)}" scope="request" />
                 <jsp:include page="game_block.jsp" />
+            </c:if>
+            <c:if test="${param.containsKey('notEnoughMoney')}">
+                <div class="modal" tabindex="-1">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" style="color: black">Not enough money</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <script>
+                    window.onload = () => new bootstrap.Modal($("div[class=modal]")[0]).show();
+                </script>
             </c:if>
         </c:forEach>
     </div>
